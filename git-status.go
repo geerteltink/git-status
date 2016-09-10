@@ -17,7 +17,6 @@ func main() {
 
 	// If .git dir exists we're in a single repo
 	if checkDir(".git") {
-		// Display git status
 		displayGitStatus(".")
 		return
 	}
@@ -32,7 +31,6 @@ func main() {
 	for _, file := range files {
 		dir := file.Name()
 		if checkDir(dir) {
-			// Display git status
 			os.Chdir(dir)
 			displayGitStatus(dir)
 			os.Chdir("..")
@@ -40,7 +38,6 @@ func main() {
 	}
 }
 
-// Check dir if its a git repo
 func checkDir(dir string) bool {
 	fileInfo, err := os.Stat(dir)
 	if err != nil {
@@ -60,19 +57,11 @@ func displayGitStatus(project string) {
 		return
 	}
 
-	// project
-	// branch := ""
-	// ahead := 0
-	// behind := 0
-	// changedFiles := 0
-
 	branch := getBranch()
 	changes := getChanges()
 	changedFiles := getChangedFiles()
 
 	error := color.New(color.FgHiRed).SprintFunc()
-	//errorLabel := color.New(color.BgRed, color.FgWhite).SprintFunc()
-	//notice := color.New(color.FgBlue).SprintFunc()
 	success := color.New(color.FgHiGreen).SprintFunc()
 
 	if changes != "" || len(changedFiles) > 0 {
@@ -118,7 +107,6 @@ func getBranch() string {
 func getChanges() string {
 	cmdName := "git"
 	cmdArgs := []string{"for-each-ref", "--format=%(push:track)", "refs/heads"}
-
 	changes, err := exec.Command(cmdName, cmdArgs...).Output()
 	if err != nil {
 		return ""
@@ -140,7 +128,6 @@ func getChangedFiles() []string {
 	scanner := bufio.NewScanner(cmdReader)
 	go func() {
 		for scanner.Scan() {
-			//fmt.Println(scanner.Text())
 			changedFiles = append(changedFiles, scanner.Text())
 		}
 	}()
