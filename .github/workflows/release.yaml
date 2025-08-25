@@ -11,7 +11,7 @@ jobs:
         goos: [linux, windows]
         goarch: [amd64]
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: wangyoucao577/go-release-action@v1.17
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
